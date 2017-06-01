@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Nombre extends AppCompatActivity {
     private EditText user;
     private Button explore;
+    private ProgressBar loading;
 //
 
     @Override
@@ -31,13 +33,20 @@ public class Nombre extends AppCompatActivity {
 
         explore=(Button) findViewById(R.id.btnExplore);
         user = (EditText) findViewById(R.id.etUser);
+        loading= (ProgressBar) findViewById(R.id.progressBar) ;
+        loading.setVisibility(View.GONE);
+
 
         explore.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View view) {
+
                 if(user.getText().toString().equals("")){
                     Toast.makeText(Nombre.this, "Escriba un nombre", Toast.LENGTH_SHORT).show();
                 }else{
+                    loading.setVisibility(View.VISIBLE);
+                    loading.setProgress(20);
                     Intent intent = new Intent (getApplicationContext(),Followers.class);
                     intent.putExtra("nombre",user.getText().toString());
                     startActivity(intent);
