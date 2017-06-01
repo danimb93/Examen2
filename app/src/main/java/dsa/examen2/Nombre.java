@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Nombre extends AppCompatActivity {
     private EditText user;
     private Button explore;
-
+//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -62,7 +62,7 @@ public class Followers extends AppCompatActivity {
                     }
 
                     ArrayAdapter adapter = new ArrayAdapter(Followers.this, android.R.layout.simple_list_item_1, namesFollowers);
-                    listView.setAdapter(adapter); //Debería funcionar
+                    listView.setAdapter(adapter);
                 }
                 else{
 
