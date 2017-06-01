@@ -14,9 +14,11 @@ import retrofit2.http.Path;
 
 public interface GitHubClient {
 
-    @GET("/users/{nombre}/followers")
+
+    @GET("users/{nombre}/followers")
     Call<List<Contributor>> getList(@Path("nombre") String nombre);
 }
+
 
 
 

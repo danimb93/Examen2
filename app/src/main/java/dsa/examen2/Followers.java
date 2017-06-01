@@ -22,59 +22,61 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Followers extends AppCompatActivity {
+
     ListView listView;
-    public String Usuario;
-    public int idRepo, idFollow;
+    public String usuario;
     List<String> namesFollowers = new ArrayList<String>();
-    String tag="Followers";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers);
+
+
         listView = (ListView) findViewById(R.id.list);
+        usuario = getIntent().getExtras().getString("nombre");
 
-
-        Usuario = getIntent().getExtras().getString("emailLogged");
-        idRepo = getIntent().getExtras().getInt("idLogged");
-        idFollow = getIntent().getExtras().getInt("followersUsuario");
-
-
+        //**********************RETROFIT*******************
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://api.github.com/")                //poner esta para atacar a la api nuestra 10.0.2.2
+                .baseUrl("http://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create());
-//
-        final Retrofit retrofit =
-                builder
-                        .client(
-                                httpClient.build()
-                        )
-                        .build();
 
+
+        final Retrofit retrofit = builder.client(httpClient.build()).build();
         GitHubClient listaFollowers = retrofit.create(GitHubClient.class);
-        Call<List<Contributor>> call = listaFollowers.getList(Usuario);
+        Call<List<Contributor>> call = listaFollowers.getList(usuario);
+
 
         call.enqueue(new Callback<List<Contributor>>() {
             @Override
             public void onResponse(Call<List<Contributor>> call, Response<List<Contributor>> response) {
-                List<Contributor> followers = response.body();
 
-                for (Contributor c : followers){
-                    System.out.println(c.getLogin());
-                    namesFollowers.add(c.getLogin());
+                if (response.isSuccessful()) {
+
+                    List<Contributor> followers = response.body();
+                    for (Contributor c : followers) {
+                        System.out.println(c.getLogin());
+                        namesFollowers.add(c.getLogin());
+                    }
+
+                    ArrayAdapter adapter = new ArrayAdapter(Followers.this, android.R.layout.simple_list_item_1, namesFollowers);
+                    listView.setAdapter(adapter); //Debería funcionar
                 }
+                else{
 
-                ArrayAdapter adapter=new ArrayAdapter(Followers.this,android.R.layout.simple_list_item_1, namesFollowers);
-                listView.setAdapter(adapter);
+                    Toast.makeText(Followers.this, "El nombre de usuario esta mal", Toast.LENGTH_SHORT).show();
+
+                }
             }
 
             @Override
+
             public void onFailure(Call<List<Contributor>> call, Throwable t) {
 
+                Toast.makeText(Followers.this, t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
-

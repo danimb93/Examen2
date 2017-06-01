@@ -22,17 +22,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Nombre extends AppCompatActivity {
     private EditText user;
     private Button explore;
-   /* public String Usuario;
-    public int idRepo, idFollo;
-    List<String> Followers = new ArrayList<String>();*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nombre);
-        explore=(Button) findViewById(R.id.btnExplore);
 
+        explore=(Button) findViewById(R.id.btnExplore);
         user = (EditText) findViewById(R.id.etUser);
+
         explore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,10 +41,9 @@ public class Nombre extends AppCompatActivity {
                     Intent intent = new Intent (getApplicationContext(),Followers.class);
                     intent.putExtra("nombre",user.getText().toString());
                     startActivity(intent);
-    }
+            }
 
-}
+        }
         });
-
-                }
-                }
+    }
+}
